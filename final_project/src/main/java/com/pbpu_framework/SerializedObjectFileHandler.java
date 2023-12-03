@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerializedObjectHandler implements DataFileHandler<List<Data>> {
+public class SerializedObjectFileHandler implements DataFileHandler<List<Data>> {
 
     private final String dataPath = "data/";
 

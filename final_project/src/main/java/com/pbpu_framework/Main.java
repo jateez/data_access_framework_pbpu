@@ -1,4 +1,3 @@
-
 package com.pbpu_framework;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class Main {
         FileTypeHandler<List<Data>> csvFileHandler = new FileTypeHandler<>(new CsvFileHandler());
         FileTypeHandler<List<Data>> jsonFileHandler = new FileTypeHandler<>(new JsonFileHandler());
         FileTypeHandler<List<Data>> sqliteFileHandler = new FileTypeHandler<>(new SQLiteFileHandler());
-        FileTypeHandler<List<Data>> serializedFileHandler = new FileTypeHandler<>(new SerializedObjectHandler());
+        FileTypeHandler<List<Data>> serializedFileHandler = new FileTypeHandler<>(new SerializedObjectFileHandler());
 
         while (true) {
             System.out.println("Choose a file format:");
@@ -32,28 +31,29 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    fileTypeHandler = csvFileHandler;
+                    fileTypeHandler = new CsvFileHandlerFactory().createFileHandler();
                     dataType = "CSV";
                     System.out.println("You are currently writing to " + dataType + " file formats.");
                     break;
                 case 2:
-                    fileTypeHandler = txtFileHandler;
+                    fileTypeHandler = new TxtFileHandlerFactory().createFileHandler();
                     dataType = "TXT";
                     System.out.println("You are currently writing to " + dataType + " file formats.");
                     break;
                 case 3:
-                    fileTypeHandler = jsonFileHandler;
+                    fileTypeHandler = new JsonFileHandlerFactory().createFileHandler();
                     dataType = "JSON";
                     System.out.println("You are currently writing to " + dataType + " file formats.");
-
                     break;
                 case 4:
-                    fileTypeHandler = sqliteFileHandler;
+                    fileTypeHandler = new SQLiteFileHandlerFactory().createFileHandler();
                     dataType = "SQLite";
                     System.out.println("You are currently writing to " + dataType + " file formats.");
                     break;
                 case 5:
-                    fileTypeHandler = serializedFileHandler;
+                    // lama : fileTypeHandler = serializedFileHandler;
+                    fileTypeHandler = new SerializedObjectFileHandlerFactory().createFileHandler();
+
                     dataType = "SO";
                     System.out.println("You are currently writing to " + dataType + " file formats.");
                     break;
