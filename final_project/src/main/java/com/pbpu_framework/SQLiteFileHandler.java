@@ -1,5 +1,6 @@
 package com.pbpu_framework;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,13 +8,19 @@ import java.util.List;
 
 public class SQLiteFileHandler implements DataFileHandler<List<Data>> {
 
-    private final String jdbcUrl = "jdbc:sqlite:data/sqlite_data.db";
+    private final String jdbcUrl = "jdbc:sqlite:data/sqlite_data.sqlite";
 
     @Override
     public List<Data> readFile(String tableName) throws IOException {
         List<Data> dataList = new ArrayList<>();
 
-        String query = "SELECT * FROM " + tableName.replace(".db", "");
+        // Check if the database file exists; if not, create an empty database
+        // File databaseFile = new File("data/sqlite_data.sqlite");
+        // if (!databaseFile.exists()) {
+        // createEmptyDatabase();
+        // }
+
+        String query = "SELECT * FROM " + tableName;
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl);
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -65,4 +72,23 @@ public class SQLiteFileHandler implements DataFileHandler<List<Data>> {
             throw new IOException("Failed to write to SQLite database", e);
         }
     }
+
+    // Doesn't work (╯°□°）╯︵ ┻━┻)
+    // private void createEmptyDatabase() throws IOException {
+    // try (Connection connection = DriverManager.getConnection(jdbcUrl);
+    // Statement statement = connection.createStatement()) {
+    // // Create the database file
+    // statement.executeUpdate("CREATE DATABASE IF NOT EXISTS sqlite_data");
+
+    // // Use the created database
+    // statement.executeUpdate("USE sqlite_data");
+
+    // // Create the dataTable table
+    // String createTableQuery = "CREATE TABLE IF NOT EXISTS dataTable (id INTEGER
+    // PRIMARY KEY AUTOINCREMENT, subject TEXT, description TEXT)";
+    // statement.executeUpdate(createTableQuery);
+    // } catch (SQLException e) {
+    // throw new IOException("Failed to create empty SQLite database", e);
+    // }
+    // }
 }

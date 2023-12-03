@@ -3,6 +3,7 @@ package com.pbpu_framework;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,6 +17,12 @@ public class CsvFileHandler implements DataFileHandler<List<Data>> {
     @Override
     public List<Data> readFile(String fileName) throws IOException {
         List<Data> dataList = new ArrayList<>();
+        if (!new File(dataPath + fileName).exists()) {
+            try (CSVWriter writer = new CSVWriter(new FileWriter(dataPath + fileName))) {
+                // Write headers if creating new file
+                // writer.writeNext(new String[] { "subject", "description" });
+            }
+        }
         try (CSVReader reader = new CSVReader(new FileReader(dataPath + fileName))) {
             String[] nextLine;
             try {

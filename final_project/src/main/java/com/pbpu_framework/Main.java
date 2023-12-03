@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.io.IOException;
-// import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Main {
     private static String dataType = "";
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        // Class.forName("org.sqlite.JDBC");
+    public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
         Scanner scanner = new Scanner(System.in);
         FileTypeHandler<List<Data>> fileTypeHandler = null;
         FileTypeHandler<List<Data>> txtFileHandler = new FileTypeHandler<>(new TxtFileHandler());
@@ -35,27 +34,28 @@ public class Main {
                 case 1:
                     fileTypeHandler = csvFileHandler;
                     dataType = "CSV";
-                    System.out.println(dataType);
+                    System.out.println("You are currently writing to " + dataType + " file formats.");
                     break;
                 case 2:
                     fileTypeHandler = txtFileHandler;
                     dataType = "TXT";
-                    System.out.println(dataType);
+                    System.out.println("You are currently writing to " + dataType + " file formats.");
                     break;
                 case 3:
                     fileTypeHandler = jsonFileHandler;
                     dataType = "JSON";
-                    System.out.println(dataType);
+                    System.out.println("You are currently writing to " + dataType + " file formats.");
+
                     break;
                 case 4:
                     fileTypeHandler = sqliteFileHandler;
                     dataType = "SQLite";
-                    System.out.println(dataType);
+                    System.out.println("You are currently writing to " + dataType + " file formats.");
                     break;
                 case 5:
                     fileTypeHandler = serializedFileHandler;
                     dataType = "SO";
-                    System.out.println(dataType);
+                    System.out.println("You are currently writing to " + dataType + " file formats.");
                     break;
 
                 case 6:
@@ -110,11 +110,12 @@ public class Main {
     }
 
     private static void createData(FileTypeHandler<List<Data>> fileTypeHandler, Scanner scanner) throws IOException {
+        scanner.nextLine();
         System.out.println("Enter subject:");
-        String subject = scanner.next();
+        String subject = scanner.nextLine();
 
         System.out.println("Enter description:");
-        String description = scanner.next();
+        String description = scanner.nextLine();
 
         Data newData = new Data(subject, description);
 

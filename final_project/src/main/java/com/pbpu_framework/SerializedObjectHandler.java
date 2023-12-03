@@ -12,6 +12,12 @@ public class SerializedObjectHandler implements DataFileHandler<List<Data>> {
     public List<Data> readFile(String fileName) throws IOException {
         List<Data> dataList = new ArrayList<>();
 
+        if (!new File(dataPath + fileName).exists()) {
+            // Create empty file if it doesn't exist
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(dataPath + fileName))) {
+                oos.writeObject(dataList);
+            }
+        }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(dataPath + fileName))) {
             // Read the object and cast it directly to List<Data>
             Object object = ois.readObject();

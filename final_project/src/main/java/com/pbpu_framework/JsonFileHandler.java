@@ -3,6 +3,7 @@ package com.pbpu_framework;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,6 +16,14 @@ public class JsonFileHandler implements DataFileHandler<List<Data>> {
 
     @Override
     public List<Data> readFile(String fileName) throws IOException {
+        if (!new File(dataPath + fileName).exists()) {
+            if (fileName.equals("json_data.json")) {
+                // Create empty JSON file if it doesn't exist
+                try (FileWriter writer = new FileWriter(dataPath + fileName)) {
+                    // writer.write("{}");
+                }
+            }
+        }
         try (FileReader reader = new FileReader(dataPath + fileName)) {
             Type type = new TypeToken<List<Data>>() {
             }.getType();
