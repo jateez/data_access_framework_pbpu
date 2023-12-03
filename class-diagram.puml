@@ -1,0 +1,89 @@
+@startuml
+
+class Main {
+  - dataType: String
+  + main(String[] args): void
+  + menuCommandLine(FileTypeHandler<List<Data>> fileTypeHandler, Scanner scanner): void
+  + createData(FileTypeHandler<List<Data>> fileTypeHandler, Scanner scanner): void
+  + readDataByIndex(FileTypeHandler<List<Data>> fileTypeHandler, Scanner scanner): int
+  + updateData(FileTypeHandler<List<Data>> fileTypeHandler, Scanner scanner): void
+  + deleteData(FileTypeHandler<List<Data>> fileTypeHandler, Scanner scanner): void
+  + readData(FileTypeHandler<List<Data>> fileTypeHandler, Scanner scanner): void
+}
+
+class Data {
+  - subject: String
+  - description: String
+  + Data(String subject, String description)
+  + Data(String dataString)
+  + getSubject(): String
+  + getDescription(): String
+  + setSubject(String subject): void
+  + setDescription(String description): void
+  + toString(): String
+  + createFromStrings(String subject, String description): Data
+  + toCsvString(): String
+}
+
+interface DataFileHandler<Type> {
+  + readFile(String fileName): Type
+  + writeFile(String fileName, Type data): void
+}
+
+class FileTypeHandler<Type> {
+  - fileHandler: DataFileHandler<Type>
+  + FileTypeHandler(DataFileHandler<Type> fileHandler)
+  + readFile(String fileName): Type
+  + writeFile(String fileName, Type data): void
+}
+
+class CsvFileHandler {
+  - dataPath: String
+  + readFile(String fileName): List<Data>
+  + writeFile(String fileName, List<Data> dataList): void
+}
+
+class JsonFileHandler {
+  - dataPath: String
+  + readFile(String fileName): List<Data>
+  + writeFile(String fileName, List<Data> dataList): void
+}
+
+class SerializedObjectHandler {
+  - dataPath: String
+  + readFile(String fileName): List<Data>
+  + writeFile(String fileName, List<Data> dataList): void
+}
+
+class SQLiteFileHandler {
+  - jdbcUrl: String
+  + readFile(String tableName): List<Data>
+  + writeFile(String tableName, List<Data> dataList): void
+}
+
+class TxtFileHandler {
+  - dataPath: String
+  + readFile(String fileName): List<Data>
+  + writeFile(String fileName, List<Data> dataList): void
+}
+
+interface DataFileHandlerFactory {
+  + createFileHandler(): FileTypeHandler<Type>
+}
+
+class CsvFileHandlerFactory {
+  + createFileHandler(): FileTypeHandler<List<Data>>
+}
+
+Main --> FileTypeHandler
+Main --> Data
+FileTypeHandler --> DataFileHandler
+FileTypeHandler --> DataFileHandlerFactory
+CsvFileHandler --> DataFileHandler
+JsonFileHandler --> DataFileHandler
+SerializedObjectHandler --> DataFileHandler
+SQLiteFileHandler --> DataFileHandler
+TxtFileHandler --> DataFileHandler
+CsvFileHandlerFactory --> DataFileHandlerFactory
+
+@enduml

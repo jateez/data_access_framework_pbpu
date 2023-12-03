@@ -260,7 +260,7 @@ public class Main {
                 if (dataType.equals("CSV")) {
                     dataList = fileTypeHandler.readFile("csv_data.csv");
                     dataList.remove(index);
-                    fileTypeHandler.writeFile("csv_data", dataList);
+                    fileTypeHandler.writeFile("csv_data.csv", dataList);
 
                 } else if (dataType.equals("TXT")) {
                     dataList = fileTypeHandler.readFile("txt_data.txt");
